@@ -8,10 +8,6 @@ use Overland\Core\Config;
 use Overland\Core\Middleware\MiddlewareServiceProvider;
 use Overland\Core\Router\RouterServiceProvider;
 
-require_once 'vendor/autoload.php';
-
-phpinfo();
-
 $app = new App();
 
 $app['config'] = new Config();
