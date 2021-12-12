@@ -7,7 +7,7 @@ class Config {
 
     public function __construct()
     {
-        $this->config = require_once plugin_dir_path(__DIR__) . 'config.php';
+        $this->config = OVERLAND_PLUGIN_ROOT . 'config.php';
     }
 
     public function get($key) {
