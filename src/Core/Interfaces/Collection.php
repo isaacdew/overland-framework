@@ -3,9 +3,10 @@
 namespace Overland\Core\Interfaces;
 
 use ArrayAccess;
+use Countable;
 use Iterator;
 
-class Collection implements Iterator, ArrayAccess
+class Collection implements Iterator, ArrayAccess, Countable
 {
     protected array $items = [];
 
@@ -57,5 +58,10 @@ class Collection implements Iterator, ArrayAccess
     public function offsetUnset($offset): void
     {
         unset($this->items[$offset]);
+    }
+
+    public function count(): int
+    {
+        return count($this->items);
     }
 }
