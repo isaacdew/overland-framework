@@ -2,9 +2,10 @@
 
 namespace Overland\Core\Interfaces;
 
+use ArrayAccess;
 use Iterator;
 
-class Collection implements Iterator
+class Collection implements Iterator, ArrayAccess
 {
     protected array $items = [];
 
@@ -13,28 +14,48 @@ class Collection implements Iterator
         $this->items = $items;
     }
 
-    public function current()
+    public function current(): mixed
     {
         return current($this->items);
     }
 
-    public function next()
+    public function next(): void
     {
-        return next($this->items);
+        next($this->items);
     }
 
-    public function key()
+    public function key(): mixed
     {
         return key($this->items);
     }
 
-    public function valid()
+    public function valid():bool
     {
         return key($this->items) !== null;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
-        return reset($this->items);
+        reset($this->items);
+    }
+
+    public function offsetExists($offset): bool
+    {
+        return isset($this->items[$offset]);
+    }
+
+    public function offsetGet($offset): mixed
+    {
+        return $this->items[$offset];
+    }
+
+    public function offsetSet($offset, $value): void
+    {
+        $this->items[$offset] = $value;
+    }
+
+    public function offsetUnset($offset): void
+    {
+        unset($this->items[$offset]);
     }
 }

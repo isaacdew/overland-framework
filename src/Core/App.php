@@ -29,7 +29,7 @@ class App implements ArrayAccess
         return isset($this->singletons[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->singletons[$offset];
     }

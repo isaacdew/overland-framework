@@ -9,15 +9,16 @@
             "email": "info@isaacdew.com"
         }
     ],
+    "autoload-dev": {
+        "files": ["tests/setup.php"],
+        "psr-4": {
+            "Overland\\Tests\\": "tests/"
+        }
+    },
     "autoload": {
         "files": ["bootstrap.php"],
         "psr-4": {
             "Overland\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Overland\\Tests\\": "tests/"
         }
     },
     "require": {
