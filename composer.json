@@ -1,0 +1,29 @@
+{
+    "name": "isaacdew/overland-framework",
+    "description": "A small framework for writing WordPress REST API routes in the Laravel style.",
+    "minimum-stability": "stable",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Isaac Dew",
+            "email": ""
+        }
+    ],
+    "autoload": {
+        "files": ["bootstrap.php"],
+        "psr-4": {
+            "Overland\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Overland\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php":"^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
