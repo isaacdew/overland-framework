@@ -3,7 +3,6 @@
 namespace Overland\Core;
 
 use ArrayAccess;
-use Overland\Core\Interfaces\ServiceProvider;
 
 class App implements ArrayAccess
 {
