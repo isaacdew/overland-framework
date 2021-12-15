@@ -58,7 +58,7 @@ class Auth
             $this->forbiddenResponse();
         }
 
-        if($token->iss != get_blogino('url') || !isset($token->data->user->id)) {
+        if($token->iss != get_bloginfo('url') || !isset($token->data->user->id)) {
             $this->forbiddenResponse();
         }
 
