@@ -11,7 +11,6 @@ use Overland\Core\Router\RouterServiceProvider;
 $app = new App();
 
 $app['config'] = new Config();
-$serviceProviders = $app['config']->get('app.serviceProviders');
 
 $app->register(RouterServiceProvider::class);
 $app->register(MiddlewareServiceProvider::class);

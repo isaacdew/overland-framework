@@ -15,7 +15,7 @@ class App implements ArrayAccess
 
     public function boot() {
         if($this->singletons['config']) {
-            $this->serviceProviders = array_merge($this->singletons['config']->get('app.serviceProviders'));
+            $this->serviceProviders = array_merge($this->serviceProviders, $this->singletons['config']->get('app.serviceProviders'));
         }
 
         foreach($this->serviceProviders as $provider) {
