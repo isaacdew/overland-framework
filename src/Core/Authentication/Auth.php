@@ -44,7 +44,7 @@ class Auth
 
     public function validateToken()
     {
-        $token = $_COOKIE['overland_jwt_token'];
+        $token = $_COOKIE['overland_jwt_token'] ?? false;
 
         if (!$token) {
             $this->forbiddenResponse();
