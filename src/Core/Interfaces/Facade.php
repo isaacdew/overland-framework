@@ -3,6 +3,7 @@
 namespace Overland\Core\Interfaces;
 
 use Overland\Core\App;
+use Overland\Core\OverlandException;
 
 abstract class Facade {
 
@@ -21,6 +22,6 @@ abstract class Facade {
     }
 
     protected static function getFacadeRoot() {
-
+        throw new OverlandException(get_called_class() . 'does not implement getFacadeRoot!');
     }
 }

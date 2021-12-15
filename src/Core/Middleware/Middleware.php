@@ -27,7 +27,7 @@ class Middleware {
         if($route) {
             foreach($route->getMiddleware() as $middleware) {
                 $middleware = "\Overland\App\Middleware\\{$middleware}";
-                (new $middleware)->handle();
+                (new $middleware)->handle($request);
             }
         }
     }
