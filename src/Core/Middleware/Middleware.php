@@ -10,8 +10,11 @@ class Middleware {
 
     protected RouteCollection $routes;
 
-    public function __construct()
+    protected $middleware = [];
+
+    public function __construct($middleware)
     {
+        $this->middleware = $middleware ?? [];
         add_filter( 'rest_pre_dispatch', [$this, 'filterRequest'], 0, 3);
     }
 
@@ -26,8 +29,7 @@ class Middleware {
         $route = $this->routeMatch();
         if($route) {
             foreach($route->getMiddleware() as $middleware) {
-                $middleware = "\Overland\App\Middleware\\{$middleware}";
-                (new $middleware)->handle($request);
+                (new $this->middleware[$middleware])->handle($request);
             }
         }
     }
