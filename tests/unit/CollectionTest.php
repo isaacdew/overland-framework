@@ -31,4 +31,10 @@ class CollectionTest extends TestCase {
     public function test_it_implements_iterator() {
         $this->assertIsIterable($this->collection);
     }
+
+    public function test_can_push_new_items() {
+        $this->collection->push(365);
+
+        $this->assertContains(365, $this->collection);
+    }
 }

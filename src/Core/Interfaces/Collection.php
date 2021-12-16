@@ -15,6 +15,10 @@ class Collection implements Iterator, ArrayAccess, Countable
         $this->items = $items;
     }
 
+    public function push($item) {
+        $this->items[] = $item;
+    }
+
     public function current(): mixed
     {
         return current($this->items);

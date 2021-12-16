@@ -6,12 +6,9 @@ use Overland\Core\Interfaces\Collection;
 
 class RouteCollection extends Collection {
 
-    public function add(Route $route) {
-        $this->items[] = $route;
-    }
-
     public function findByName($name) {
-        return reset(array_filter($this->items, fn($route) => $route->getName() == $name)) ?? false;
+        $filteredItems = array_filter($this->items, fn($route) => $route->getName() == $name);
+        return reset($filteredItems) ?? false;
     }
 
     public function whereHasMiddleware() {
@@ -19,8 +16,9 @@ class RouteCollection extends Collection {
     }
 
     public function find($path, $method) {
-        return reset(array_filter($this->items, function($route) use ($path, $method) {
+        $filteredItems = array_filter($this->items, function($route) use ($path, $method) {
             return $route->getFullPath() == $path && $route->getMethod() == $method;
-        })) ?? false;
+        });
+        return reset($filteredItems) ?? false;
     }
 }

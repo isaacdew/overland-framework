@@ -67,7 +67,7 @@ class Router {
 
     protected function addRoute($path, $action, $method) {
         $route = new Route($this->basePath, $path, $action, $method);
-        $this->routes->add($route);
+        $this->routes->push($route);
         return $route;
     }
 }
