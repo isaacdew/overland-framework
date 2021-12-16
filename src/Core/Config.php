@@ -7,14 +7,14 @@ class Config {
 
     public function __construct()
     {
-        $this->config = require_once OVERLAND_PLUGIN_ROOT . 'config.php';
+        $this->config = require OVERLAND_PLUGIN_ROOT . 'config.php';
     }
 
     public function get($key) {
         $keys = explode('.', $key);
         $config = $this->config;
         foreach($keys as $key) {
-            $config = $config[$key];
+            $config = $config[$key] ?? false;
         }
         return $config;
     }

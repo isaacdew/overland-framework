@@ -16,7 +16,7 @@ class RouterServiceProvider extends ServiceProvider {
             return new Router($app);
         });
         Route::setApp($this->app);
-        require_once $this->app['config']->get('app.pluginRoot') . 'routes.php';
+        require_once $this->app->config()->get('app.pluginRoot') . 'routes.php';
 
         $this->app['router']->registerRoutes();
     }

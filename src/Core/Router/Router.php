@@ -16,7 +16,7 @@ class Router {
     public function __construct($app)
     {
         $this->app = $app;
-        $this->basePath = $app['config']->get('app.basePath');
+        $this->basePath = $app->config()->get('app.basePath');
         $this->routes = new RouteCollection();
     }
 

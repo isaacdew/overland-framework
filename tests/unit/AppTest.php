@@ -1,6 +1,7 @@
 <?php
 
 use Overland\Core\App;
+use Overland\Core\Config;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -8,8 +9,7 @@ use PHPUnit\Framework\TestCase;
  */
 class AppTest extends TestCase {
     public function test_it_can_create_singleton() {
-        $app = new App();
-        
+        $app = new App(new Config());
         $callback = fn($app) =>  10 + 10; 
 
         $app->singleton('mySingleton', $callback);

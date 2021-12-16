@@ -8,16 +8,19 @@ class App implements ArrayAccess
 {
     protected $serviceProviders = [];
     protected $singletons = [];
+    protected $config;
+
+    public function __construct(Config $config)
+    {   
+        $this->config = $config;
+        $this->serviceProviders = $this->config->get('app.serviceProviders') ?? [];
+    }
 
     public function register($provider) {
         $this->serviceProviders[] = $provider;
     }
 
     public function boot() {
-        if($this->singletons['config']) {
-            $this->serviceProviders = array_merge($this->serviceProviders, $this->singletons['config']->get('app.serviceProviders'));
-        }
-
         foreach($this->serviceProviders as $provider) {
             $provider = new $provider($this);
             $provider->boot();
@@ -46,5 +49,9 @@ class App implements ArrayAccess
     public function offsetUnset($offset): void
     {
         unset($this->singletons[$offset]);
+    }
+
+    public function config() {
+        return $this->config;
     }
 }

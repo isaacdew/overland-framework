@@ -8,9 +8,7 @@ use Overland\Core\Config;
 use Overland\Core\Middleware\MiddlewareServiceProvider;
 use Overland\Core\Router\RouterServiceProvider;
 
-$app = new App();
-
-$app['config'] = new Config();
+$app = new App(new Config());
 
 $app->register(RouterServiceProvider::class);
 $app->register(MiddlewareServiceProvider::class);
