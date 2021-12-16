@@ -3,6 +3,7 @@
     "description": "A small framework for writing WordPress REST API routes in the Laravel style.",
     "minimum-stability": "stable",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Isaac Dew",
