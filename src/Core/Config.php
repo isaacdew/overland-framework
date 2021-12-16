@@ -3,18 +3,18 @@
 namespace Overland\Core;
 
 class Config {
-    protected $config;
+    protected array $config;
 
-    public function __construct()
+    public function __construct(array $config)
     {
-        $this->config = require OVERLAND_PLUGIN_ROOT . 'config.php';
+        $this->config = $config;
     }
 
     public function get($key) {
         $keys = explode('.', $key);
         $config = $this->config;
         foreach($keys as $key) {
-            $config = $config[$key] ?? false;
+            $config = $config[$key] ?? null;
         }
         return $config;
     }

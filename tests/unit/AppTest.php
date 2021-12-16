@@ -2,18 +2,45 @@
 
 use Overland\Core\App;
 use Overland\Core\Config;
+use Overland\Core\Interfaces\ServiceProvider;
+use Overland\Core\OverlandException;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers App
  */
-class AppTest extends TestCase {
-    public function test_it_can_create_singleton() {
-        $app = new App(new Config());
-        $callback = fn($app) =>  10 + 10; 
+class AppTest extends TestCase
+{
 
-        $app->singleton('mySingleton', $callback);
+    protected App $app;
 
-        $this->assertEquals($callback('nothing'), $app['mySingleton']);
+    public function setUp(): void
+    {
+        $this->app = new App(new Config([]));
+    }
+
+    public function test_it_can_create_singleton()
+    {
+        $callback = fn ($app) =>  10 + 10;
+
+        $this->app->singleton('mySingleton', $callback);
+
+        $this->assertEquals($callback('nothing'), $this->app['mySingleton']);
+    }
+
+    public function test_it_can_register_and_boot_service_providers()
+    {
+
+        $this->app->register(FakeServiceProvider::class);
+        /**
+         * If the App boot method calls the boot on our service provider, 
+         * we should expect an exception stating the boot method has not been implemented
+         */
+        $this->expectException(OverlandException::class);
+
+        $this->app->boot();
     }
 }
+
+// Create a FakeServiceProvider so we can expect an exception
+class FakeServiceProvider extends ServiceProvider {}

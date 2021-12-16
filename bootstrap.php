@@ -8,7 +8,10 @@ use Overland\Core\Config;
 use Overland\Core\Middleware\MiddlewareServiceProvider;
 use Overland\Core\Router\RouterServiceProvider;
 
-$app = new App(new Config());
+$config = new Config(
+    require_once OVERLAND_PLUGIN_ROOT . 'config.php'
+);
+$app = new App($config);
 
 $app->register(RouterServiceProvider::class);
 $app->register(MiddlewareServiceProvider::class);
