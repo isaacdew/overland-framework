@@ -47,7 +47,7 @@ define( 'DB_USER', 'wordpress' );
 define( 'DB_PASSWORD', 'WordPress' );
 
 /** MySQL hostname */
-define( 'DB_HOST', '127.0.0.1' );
+define( 'DB_HOST', isset($_ENV['CI']) ? 'mariadb' : '127.0.0.1' );
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8mb4' );
