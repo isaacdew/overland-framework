@@ -19,10 +19,14 @@ class Auth
 
         $token = $this->generateToken($user->data->ID);
 
-        setcookie('overland_jwt_token', $token, time() + (DAY_IN_SECONDS * 7), '/', '', true, true);
+        $this->sendCookie($token);
     }
 
-    protected function generateToken($userId)
+    protected function sendCookie($token) {
+        setcookie('overland_jwt_token', $token, time() + (DAY_IN_SECONDS * 7), '/', '', true, true);
+    } 
+
+    public function generateToken($userId)
     {
         $secretKey = $this->getSecretKey();
 
