@@ -1,6 +1,6 @@
 <?php
 /**
- * Don't touch :D
+ * Creates the Overland Application Instance
  */
 
 use Overland\Core\App;
