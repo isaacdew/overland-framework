@@ -6,19 +6,17 @@ on:
   pull_request:
     branches: [ main ]
 
-services:
-  image: mariadb
-  env:
-    MYSQL_ROOT_PASSWORD: 'root'
-    MYSQL_USER: 'wordpress'
-    MYSQL_DATABASE: 'wordpress'
-    MYSQL_PASSWORD: 'WordPress'
-
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
+
+    services:
+      image: mariadb
+      env:
+        MYSQL_ROOT_PASSWORD: 'root'
+        MYSQL_USER: 'wordpress'
+        MYSQL_DATABASE: 'wordpress'
+        MYSQL_PASSWORD: 'WordPress'
 
     steps:
     - uses: actions/checkout@v2
