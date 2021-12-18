@@ -51,7 +51,7 @@ class Router {
     }
 
     public function addRoute($path, $attributes, $method) {
-        if($attributes instanceof Closure) {
+        if(!is_array($attributes)) {
             $attributes = ['action' => $attributes];
         }
         if(!empty($this->groupAttributes)) {
