@@ -28,7 +28,7 @@ class Middleware {
         $this->request = $request;
         $route = $this->routeMatch();
         if($route) {
-            foreach($route->getMiddleware() as $middleware) {
+            foreach($route->middleware() as $middleware) {
                 (new $this->middleware[$middleware])->handle($request);
             }
         }
@@ -36,8 +36,7 @@ class Middleware {
 
     protected function routeMatch() {
         $route = $this->request->get_route();
-        $method = $this->request->get_method();
-        return $this->routes->find($route, $method);
+        return $this->routes->findRoute($route, $_SERVER['REQUEST_METHOD']);
     }
 }
 

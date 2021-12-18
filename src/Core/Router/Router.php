@@ -2,9 +2,7 @@
 
 namespace Overland\Core\Router;
 
-use Closure;
 use Overland\Core\App;
-use Overland\Core\Middleware;
 use Overland\Core\Router\RouteRegistrar;
 
 class Router {

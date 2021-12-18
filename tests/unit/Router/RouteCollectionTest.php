@@ -24,7 +24,7 @@ class RouteCollectionTest extends TestCase {
         $this->assertEquals($route2, $routes->findByName('testRoute2'));
     }
 
-    public function test_find() {
+    public function test_find_route() {
         $route1 = new Route('test', 'testing', ['action' => fn() => null], 'GET');
         $route2 = new Route('test', 'testing2', ['action' => fn() => null], 'GET');
         $routes = new RouteCollection([
@@ -32,7 +32,7 @@ class RouteCollectionTest extends TestCase {
             $route2
         ]);
 
-        $this->assertEquals($route1, $routes->find('/test/testing', 'GET'));
+        $this->assertEquals($route1, $routes->findRoute('/test/testing', 'GET'));
     }
 
     public function test_where_has_middleware() {

@@ -15,8 +15,18 @@ class Collection implements Iterator, ArrayAccess, Countable
         $this->items = $items;
     }
 
-    public function push($item) {
+    public function push($item)
+    {
         $this->items[] = $item;
+    }
+
+    public function find(callable $callback)
+    {
+        foreach ($this->items as $item) {
+            if ($callback($item)) {
+                return $item;
+            }
+        }
     }
 
     public function current(): mixed
@@ -34,7 +44,7 @@ class Collection implements Iterator, ArrayAccess, Countable
         return key($this->items);
     }
 
-    public function valid():bool
+    public function valid(): bool
     {
         return key($this->items) !== null;
     }

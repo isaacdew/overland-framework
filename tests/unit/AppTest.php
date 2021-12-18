@@ -23,11 +23,11 @@ class AppTest extends TestCase
 
     public function test_it_can_create_singleton()
     {
-        $callback = fn ($app) =>  10 + 10;
+        $callback = fn () =>  10 + 10;
 
         $this->app->singleton('mySingleton', $callback);
 
-        $this->assertEquals($callback('nothing'), $this->app['mySingleton']);
+        $this->assertEquals($callback(), $this->app['mySingleton']);
     }
 
     public function test_it_can_register_and_boot_service_providers()

@@ -37,4 +37,10 @@ class CollectionTest extends TestCase {
 
         $this->assertContains(365, $this->collection);
     }
+
+    public function test_it_can_find() {
+        $item = $this->collection->find(fn($item) => $item === 15);
+
+        $this->assertEquals(15, $item);
+    }
 }
