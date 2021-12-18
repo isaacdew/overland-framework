@@ -1,5 +1,7 @@
 <?php
 
+namespace Overland\Tests\Unit;
+
 use Overland\Core\App;
 use Overland\Core\Config;
 use Overland\Core\Interfaces\ServiceProvider;

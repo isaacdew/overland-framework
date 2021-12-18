@@ -1,5 +1,7 @@
 <?php
 
+namespace Overland\Tests\Unit;
+
 use Overland\Core\Config;
 use PHPUnit\Framework\TestCase;
 

@@ -7,7 +7,7 @@ use ArrayAccess;
 class App implements ArrayAccess
 {
     protected $serviceProviders = [];
-    protected $singletons = [];
+    protected $items = [];
     protected $config;
 
     public function __construct(Config $config)
@@ -28,27 +28,38 @@ class App implements ArrayAccess
     }
 
     public function singleton($name, $callback) {
-        $this->singletons[$name] = $callback($this);
+        $this->bind($name, $callback, true);
+    }
+
+    public function bind($name, $callback, $singleton = false) {
+        $this->items[$name] = [
+            'value' => $singleton ? $callback($this) : $callback,
+            'singleton' => $singleton
+        ];
     }
 
     public function offsetExists($offset): bool
     {
-        return isset($this->singletons[$offset]);
+        return isset($this->items[$offset]);
     }
 
     public function offsetGet($offset): mixed
     {
-        return $this->singletons[$offset];
+        if(isset($this->items[$offset]) && $this->items[$offset]['singleton']) {
+            return $this->items[$offset]['value'];
+        }
+
+        return $this->items[$offset]['value']($this);
     }
 
     public function offsetSet($offset, $value): void
     {
-        $this->singletons[$offset] = $value;
+        $this->items[$offset] = $value;
     }
 
     public function offsetUnset($offset): void
     {
-        unset($this->singletons[$offset]);
+        unset($this->items[$offset]);
     }
 
     public function config() {

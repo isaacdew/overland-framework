@@ -1,6 +1,6 @@
 <?php
 
-namespace Overland\Tests;
+namespace Overland\Tests\Unit\Router;
 
 use Overland\Core\Router\Route;
 use Overland\Core\Router\RouteCollection;
@@ -12,10 +12,10 @@ use PHPUnit\Framework\TestCase;
 class RouteCollectionTest extends TestCase {
 
     public function test_find_route_by_name() {
-        $route1 = new Route('test', 'testing', fn() => null, 'GET');
-        $route1->setAttributes([ 'name' => 'testRoute' ]);
-        $route2 = new Route('test', 'testing2', fn() => null, 'GET');
-        $route2->setAttributes([ 'name' => 'testRoute2' ]);
+        $route1 = new Route('test', 'testing', ['action' => fn() => null], 'GET');
+        $route1->name('testRoute');
+        $route2 = new Route('test', 'testing2', ['action' => fn() => null], 'GET');
+        $route2->name('testRoute2');
         $routes = new RouteCollection([
             $route1,
             $route2
@@ -25,8 +25,8 @@ class RouteCollectionTest extends TestCase {
     }
 
     public function test_find() {
-        $route1 = new Route('test', 'testing', fn() => null, 'GET');
-        $route2 = new Route('test', 'testing2', fn() => null, 'GET');
+        $route1 = new Route('test', 'testing', ['action' => fn() => null], 'GET');
+        $route2 = new Route('test', 'testing2', ['action' => fn() => null], 'GET');
         $routes = new RouteCollection([
             $route1,
             $route2
@@ -36,8 +36,8 @@ class RouteCollectionTest extends TestCase {
     }
 
     public function test_where_has_middleware() {
-        $route1 = new Route('test', 'testing', fn() => null, 'GET');
-        $route2 = new Route('test', 'testing2', fn() => null, 'GET');
+        $route1 = new Route('test', 'testing', ['action' => ['action' => fn() => null]], 'GET');
+        $route2 = new Route('test', 'testing2', ['action' => fn() => null], 'GET');
         $route2->middleware(['auth']);
         $routes = new RouteCollection([
             $route1,

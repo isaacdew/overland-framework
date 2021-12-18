@@ -7,7 +7,7 @@ class Validator {
     protected array $rules = [];
     protected array $errors = [];
 
-    private function __construct($input, $rules)
+    public function __construct($input, $rules)
     {
         $this->input = $input;
         $this->rules = $rules;   
@@ -20,7 +20,7 @@ class Validator {
     public function validate() {
         $validInput = [];
         foreach($this->rules as $key => $value) {
-            if(!isset($this->input[$key]) && $value['required']) {
+            if(isset($value['required']) && empty($this->input[$key])) {
                 $this->errors[] = "{$key} is required";
                 continue;
             }
@@ -33,14 +33,14 @@ class Validator {
             }
             $validInput[$key] = $this->input[$key];
         }
-        $this->showErrors();
+        if(count($this->errors)) {
+            $this->showErrors();
+        }
         return $validInput;
     }
 
     protected function showErrors() {
-        if(count($this->errors)) {
-            echo json_encode($this->errors);
-            exit;
-        }
+        echo json_encode($this->errors);
+        exit;
     }
 }

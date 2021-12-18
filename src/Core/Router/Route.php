@@ -8,14 +8,17 @@ class Route {
     protected $action;
     protected $method;
     protected $name = '';
+    protected $attributes = [];
     protected $middleware = [];
 
-    public function __construct($basePath, $path, $action, $method)
-    {
+    public function __construct($basePath, $path, $attributes, $method)
+    { 
         $this->basePath = $basePath;
-        $this->path = $path;
-        $this->action = $action;
+        $this->path = isset($attributes['prefix']) ? trim($attributes['prefix'], '/') . '/' .  $path : $path;
+        $this->attributes = $attributes;
         $this->method = $method;
+        $this->action = $attributes['action'];
+        $this->middleware = $attributes['middleware'] ?? [];
     }
 
     public function register() {
@@ -25,46 +28,12 @@ class Route {
           ) );
     }
 
-    public function name($name) {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getName() {
-        return $this->name;
-    }
-
-    public function getPath() {
-        return $this->path;
-    }
-
     public function getFullPath() {
         return '/' . $this->basePath . '/' . $this->path;
     }
 
-    public function getMethod() {
-        return $this->method;
-    }
-
-    public function middleware(array $middleware) {
-        $this->middleware = [...$this->middleware, ...$middleware];
-    }
-
     public function getMiddleware() {
         return $this->middleware;
-    }
-
-    public function setAttributes(array $attributes) {
-        if(isset($attributes['middleware'])) {
-            $this->middleware($attributes['middleware']);
-        }
-
-        if(isset($attributes['name'])) {
-            $this->name($attributes['name']);
-        }
-
-        return $this;
     }
 
     public function prefix($prefix) {
@@ -85,4 +54,14 @@ class Route {
         return $this->action;
     }
 
+    public function __call($name, $arguments)
+    {
+        if(empty($arguments)) {
+            return $this->attributes[$name] ?? $this->{$name};
+        }
+
+        $this->attributes[$name] = $arguments[0];
+
+        return $this;
+    }
 }

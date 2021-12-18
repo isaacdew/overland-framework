@@ -1,5 +1,7 @@
 <?php
 
+namespace Overland\Tests\Unit;
+
 use Overland\Core\Authentication\Auth;
 use Overland\Tests\Traits\DatabaseTransactions;
 use PHPUnit\Framework\TestCase;

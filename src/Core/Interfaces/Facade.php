@@ -9,16 +9,24 @@ abstract class Facade {
 
     protected static App $app;
 
+    protected static $resolvedInstance;
+
     public static function __callStatic($name, $arguments)
     {
         $root = static::getFacadeRoot();
-        $instance = static::$app[$root];
 
-        return $instance->$name(...$arguments);
+        return static::getResolvedInstance($root)->$name(...$arguments);
     }
 
     public static function setApp(App $app) {
         static::$app = $app;
+    }
+
+    protected static function getResolvedInstance($name) {
+        if(isset(static::$resolvedInstance[$name])) {
+            return static::$resolvedInstance[$name];
+        }
+        return static::$resolvedInstance[$name] = static::$app[$name];
     }
 
     protected static function getFacadeRoot() {

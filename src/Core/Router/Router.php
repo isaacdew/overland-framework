@@ -2,8 +2,10 @@
 
 namespace Overland\Core\Router;
 
+use Closure;
 use Overland\Core\App;
 use Overland\Core\Middleware;
+use Overland\Core\Router\RouteRegistrar;
 
 class Router {
     protected $basePath;
@@ -11,7 +13,7 @@ class Router {
     protected App $app;
     protected RouteCollection $routes;
 
-    protected array $attributes = [];
+    protected array $groupAttributes = [];
 
     public function __construct($app)
     {
@@ -20,28 +22,11 @@ class Router {
         $this->routes = new RouteCollection();
     }
 
-    public function middleware(array $middleware, $routes = []) {
-        foreach($routes as $route) {
-            $route->middleware($middleware);
-        }
+    public function group($attributes, $callback) {
+        $this->groupAttributes = $attributes;
+        $callback($this);
 
-        if(empty($routes)) {
-            $this->attributes['middleware'] = $middleware;
-        }
-
-        return $this;
-    }
-
-    public function name($name) {
-        $this->attributes['name'] = $name;
-    }
-
-    public function group($prefix, $routes) {
-        foreach($routes as $route) {
-            $route->setAttributes($this->attributes)->prefix($prefix);
-        }
-        $this->attributes = [];
-
+        $this->groupAttributes = [];
         return $this;
     }
 
@@ -65,9 +50,20 @@ class Router {
         return $this->routes;
     }
 
-    protected function addRoute($path, $action, $method) {
-        $route = new Route($this->basePath, $path, $action, $method);
+    public function addRoute($path, $attributes, $method) {
+        if($attributes instanceof Closure) {
+            $attributes = ['action' => $attributes];
+        }
+        if(!empty($this->groupAttributes)) {
+            $attributes = array_merge($this->groupAttributes, $attributes);
+        }
+        $route = new Route($this->basePath, $path, $attributes, $method);
         $this->routes->push($route);
         return $route;
+    }
+
+    public function __call($method, $arguments)
+    {
+        return (new RouteRegistrar($this))->attribute($method, $arguments[0] ?? true);
     }
 }

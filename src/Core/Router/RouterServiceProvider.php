@@ -15,6 +15,9 @@ class RouterServiceProvider extends ServiceProvider {
         $this->app->singleton('router', function ($app) {
             return new Router($app);
         });
+        $this->app->bind('routerRegistrar', function ($app) {
+            return new RouteRegistrar($app['router']);
+        });
         Route::setApp($this->app);
         require_once $this->app->config()->get('app.pluginRoot') . 'routes.php';
 
