@@ -13,11 +13,11 @@ class Router {
 
     protected array $groupAttributes = [];
 
-    public function __construct($app)
+    public function __construct($app, $routes = null)
     {
         $this->app = $app;
         $this->basePath = $app->config()->get('app.basePath');
-        $this->routes = new RouteCollection();
+        $this->routes = $routes ?? new RouteCollection();
     }
 
     public function group($attributes, $callback) {

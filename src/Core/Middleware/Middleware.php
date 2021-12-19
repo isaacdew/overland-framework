@@ -2,6 +2,7 @@
 
 namespace Overland\Core\Middleware;
 
+use Overland\Core\Router\Route;
 use Overland\Core\Router\RouteCollection;
 use WP_REST_Request;
 
@@ -10,9 +11,11 @@ class Middleware {
 
     protected RouteCollection $routes;
 
+    protected ?Route $matchedRoute = null;
+
     protected $middleware = [];
 
-    public function __construct($middleware)
+    public function __construct($middleware = null)
     {
         $this->middleware = $middleware ?? [];
         add_filter( 'rest_pre_dispatch', [$this, 'filterRequest'], 0, 3);
@@ -26,12 +29,16 @@ class Middleware {
 
     public function filterRequest($result, $server, $request) {
         $this->request = $request;
-        $route = $this->routeMatch();
-        if($route) {
-            foreach($route->middleware() as $middleware) {
+        $this->matchedRoute = $this->routeMatch();
+        if($this->matchedRoute) {
+            foreach($this->matchedRoute->middleware() as $middleware) {
                 (new $this->middleware[$middleware])->handle($request);
             }
         }
+    }
+
+    public function getMatchedRoute() {
+        return $this->matchedRoute;
     }
 
     protected function routeMatch() {
