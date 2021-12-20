@@ -39,6 +39,9 @@ class Validator {
         return $validInput;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function showErrors() {
         echo json_encode($this->errors);
         exit;

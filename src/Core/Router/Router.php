@@ -5,7 +5,8 @@ namespace Overland\Core\Router;
 use Overland\Core\App;
 use Overland\Core\Router\RouteRegistrar;
 
-class Router {
+class Router
+{
     protected $basePath;
 
     protected App $app;
@@ -20,7 +21,8 @@ class Router {
         $this->routes = $routes ?? new RouteCollection();
     }
 
-    public function group($attributes, $callback) {
+    public function group($attributes, $callback)
+    {
         $this->groupAttributes = $attributes;
         $callback($this);
 
@@ -28,31 +30,33 @@ class Router {
         return $this;
     }
 
-    public function get($path, $action) {
+    public function get($path, $action)
+    {
         return $this->addRoute($path, $action, 'GET');
     }
 
-    public function post($path, $action) {
+    public function post($path, $action)
+    {
         return $this->addRoute($path, $action, 'POST');
     }
 
-    public function registerRoutes() {
-        add_action('rest_api_init', function() {
-            foreach($this->routes as $route) {
-                $route->register();
-            }
-        });
+    public function registerRoutes()
+    {
+        add_action('rest_api_init', [$this, 'initAPI']);
+        return $this;
     }
 
-    public function getRoutes() {
+    public function getRoutes()
+    {
         return $this->routes;
     }
 
-    public function addRoute($path, $attributes, $method) {
-        if(!is_array($attributes)) {
+    public function addRoute($path, $attributes, $method)
+    {
+        if (!is_array($attributes)) {
             $attributes = ['action' => $attributes];
         }
-        if(!empty($this->groupAttributes)) {
+        if (!empty($this->groupAttributes)) {
             $attributes = array_merge($this->groupAttributes, $attributes);
         }
         $route = new Route($this->basePath, $path, $attributes, $method);
@@ -63,5 +67,12 @@ class Router {
     public function __call($method, $arguments)
     {
         return (new RouteRegistrar($this))->attribute($method, $arguments[0] ?? true);
+    }
+
+    protected function initAPI()
+    {
+        foreach ($this->routes as $route) {
+            $route->register();
+        }
     }
 }

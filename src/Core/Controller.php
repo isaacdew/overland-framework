@@ -9,10 +9,18 @@ abstract class Controller {
     }
 
     protected function authorize($capability) {
-        if ( ! current_user_can( $capability ) ) {
-            status_header( 403 );
-            exit;
+        if ( ! $this->can($capability) ) {
+            $this->response(403);
         }
         return true;
+    }
+
+    protected function can($capability) {
+        return current_user_can($capability);
+    }
+
+    protected function response($code) {
+        status_header($code);
+        exit;
     }
 }

@@ -9,7 +9,10 @@ use Overland\Core\OverlandException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers App
+ * @covers \Overland\Core\App
+ * @uses \Overland\Core\Config
+ * @uses \Overland\Core\OverlandException
+ * @uses \Overland\Core\Interfaces\ServiceProvider
  */
 class AppTest extends TestCase
 {

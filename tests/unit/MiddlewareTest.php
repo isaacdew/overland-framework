@@ -1,16 +1,26 @@
 <?php
 
+namespace Overland\Tests\Unit;
+
 use Overland\Core\Interfaces\Middleware as InterfacesMiddleware;
 use Overland\Core\Middleware\Middleware;
 use Overland\Core\Router\Route;
 use Overland\Core\Router\RouteCollection;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use WP_REST_Request;
 
 /**
- * @covers Overland\Core\Middleware\Middleware
+ * @covers \Overland\Core\Middleware\Middleware
+ * @uses \Overland\Core\Interfaces\Collection
+ * @uses \Overland\Core\Router\RouteCollection
+ * @uses \Overland\Core\Router\Route
  */
 class MiddlewareTest extends TestCase
 {
+    /**
+     * @covers \Overland\Core\Middleware\Middleware::guard
+     */
     public function test_guard_sets_routes()
     {
         $reflectdClass = new ReflectionClass(Middleware::class);
@@ -28,6 +38,14 @@ class MiddlewareTest extends TestCase
         $this->assertSame($routes, $reflectdClass->getProperty('routes')->getValue($middleware));
     }
 
+    /**
+     * @covers \Overland\Core\Middleware\Middleware::__construct
+     * @covers \Overland\Core\Middleware\Middleware::guard
+     * @covers \Overland\Core\Middleware\Middleware::filterRequest
+     * @covers \Overland\Core\Middleware\Middleware::routeMatch
+     * @covers \Overland\Core\Middleware\Middleware::getMatchedRoute
+     * @covers \Overland\Core\Middleware\Middleware::bootMiddleware
+     */
     public function test_it_can_match_route()
     {
 

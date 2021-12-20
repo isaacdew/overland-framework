@@ -6,7 +6,7 @@ use Overland\Core\Config;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Overland\Core\Config
+ * @covers \Overland\Core\Config
  */
 class ConfigTest extends TestCase
 {

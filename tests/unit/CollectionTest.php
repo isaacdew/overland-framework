@@ -6,7 +6,7 @@ use Overland\Core\Interfaces\Collection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Collection
+ * @covers \Overland\Core\Interfaces\Collection
  */
 class CollectionTest extends TestCase {
     protected $collection;
@@ -15,6 +15,9 @@ class CollectionTest extends TestCase {
         $this->collection = new Collection([10, 15, 12]);
     }
 
+    /**
+     * @covers \Overland\Core\Interfaces\Collection::__construct
+     */
     public function test_it_implements_array_access() {
         $this->assertEquals(12, $this->collection[2]);
 
@@ -25,10 +28,19 @@ class CollectionTest extends TestCase {
         $count = $this->collection->count();
         unset($this->collection[0]);
 
+        $this->assertTrue(!isset($this->collection[0]));
         $this->assertCount($count - 1, $this->collection);
     }
 
     public function test_it_implements_iterator() {
+        $this->collection->rewind();
+        while($this->collection->valid()) {
+            $key = $this->collection->key();
+            $value = $this->collection->current();
+
+            $this->collection->next();
+        }
+
         $this->assertIsIterable($this->collection);
     }
 

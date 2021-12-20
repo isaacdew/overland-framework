@@ -7,7 +7,9 @@ use Overland\Core\Router\RouteCollection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Overland\Core\RouteCollection
+ * @covers \Overland\Core\Router\RouteCollection
+ * @uses \Overland\Core\Interfaces\Collection
+ * @uses \Overland\Core\Router\Route
  */
 class RouteCollectionTest extends TestCase {
 
