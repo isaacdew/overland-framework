@@ -37,15 +37,43 @@ class AppTest extends TestCase
     {
 
         $this->app->register(FakeServiceProvider::class);
-        /**
-         * If the App boot method calls the boot on our service provider, 
-         * we should expect an exception stating the boot method has not been implemented
-         */
-        $this->expectException(OverlandException::class);
-
         $this->app->boot();
+
+        $this->assertEquals('fired service provider', $this->app['fakeServiceProvider']);
+    }
+
+    public function test_it_implements_array_access() {
+        $this->app['test'] = 'foo';
+
+        $this->assertEquals('foo', $this->app['test']);
+
+        unset($this->app['test']);
+
+        $this->assertTrue(!isset($this->app['test']));
+    }
+
+    public function test_it_can_bind() {
+        $closure = fn() => 'test bind';
+
+        $this->app->bind('testBinding', $closure);
+
+        $this->assertEquals('test bind', $this->app['testBinding']);
+    }
+
+    public function test_it_returns_config() {
+        $config = new Config([]);
+
+        $app = new App($config);
+
+        $this->assertSame($config, $app->config());
     }
 }
 
 // Create a FakeServiceProvider so we can expect an exception
-class FakeServiceProvider extends ServiceProvider {}
+class FakeServiceProvider extends ServiceProvider {
+    public function boot() {
+        $this->app->singleton('fakeServiceProvider', function() {
+            return 'fired service provider';
+        });
+    }
+}

@@ -3,6 +3,7 @@
 namespace Overland\Core;
 
 use ArrayAccess;
+use Closure;
 
 class App implements ArrayAccess
 {
@@ -25,10 +26,14 @@ class App implements ArrayAccess
             $provider = new $provider($this);
             $provider->boot();
         }
+
+        return $this;
     }
 
     public function singleton($name, $callback) {
         $this->bind($name, $callback, true);
+
+        return $this;
     }
 
     public function bind($name, $callback, $singleton = false) {
@@ -36,6 +41,8 @@ class App implements ArrayAccess
             'value' => $singleton ? $callback($this) : $callback,
             'singleton' => $singleton
         ];
+
+        return $this;
     }
 
     public function offsetExists($offset): bool
@@ -49,12 +56,16 @@ class App implements ArrayAccess
             return $this->items[$offset]['value'];
         }
 
-        return $this->items[$offset]['value']($this);
+        if($this->items[$offset]['value'] instanceof Closure) {
+            return $this->items[$offset]['value']($this);
+        }
+        return $this->items[$offset]['value'];
     }
 
     public function offsetSet($offset, $value): void
     {
-        $this->items[$offset] = $value;
+        $this->items[$offset]['value'] = $value;
+        $this->items[$offset]['singleton'] = false;
     }
 
     public function offsetUnset($offset): void

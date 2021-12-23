@@ -1,6 +1,7 @@
 {
     "name": "isaacdew/overland-framework",
     "description": "A small framework for writing WordPress REST API routes in the Laravel style.",
+    "keywords": ["api", "wordpress"],
     "minimum-stability": "stable",
     "type": "library",
     "license": "MIT",
