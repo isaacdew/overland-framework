@@ -69,7 +69,7 @@ class Router
         return (new RouteRegistrar($this))->attribute($method, $arguments[0] ?? true);
     }
 
-    protected function initAPI()
+    public function initAPI()
     {
         foreach ($this->routes as $route) {
             $route->register();

@@ -19,8 +19,12 @@ abstract class Controller {
         return current_user_can($capability);
     }
 
-    protected function response($code) {
-        status_header($code);
-        exit;
+    protected function response($code, $exit = true) {
+        http_response_code($code);
+        // @codeCoverageIgnoreStart
+        if($exit) {
+            exit;
+        }
+        // @codeCoverageIgnoreEnd
     }
 }

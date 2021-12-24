@@ -44,7 +44,6 @@ class MiddlewareTest extends TestCase
      * @covers \Overland\Core\Middleware\Middleware::filterRequest
      * @covers \Overland\Core\Middleware\Middleware::routeMatch
      * @covers \Overland\Core\Middleware\Middleware::getMatchedRoute
-     * @covers \Overland\Core\Middleware\Middleware::bootMiddleware
      */
     public function test_it_can_match_route()
     {

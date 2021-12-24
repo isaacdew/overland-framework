@@ -28,7 +28,8 @@ class Route
     {
         register_rest_route($this->basePath, $this->path, array(
             'methods' => $this->method,
-            'callback' => $this->actionInstance()
+            'callback' => $this->getActionCallback(),
+            'permission_callback' => '__return_true'
         ));
     }
 
@@ -44,17 +45,25 @@ class Route
         return $this;
     }
 
-    protected function actionInstance()
+    protected function getActionCallback()
     {
         if (is_string($this->attributes['action']) && str_contains($this->attributes['action'], '@')) {
-            [$controller, $method] = explode('@', $this->attributes['action']);
+            return $this->buildActionClass(explode('@', $this->attributes['action']));
+        }
 
-            $controller = "\Overland\App\Controllers\\{$controller}";
-
-            return [new $controller, $method];
+        if(is_array($this->attributes['action'])) {
+            return $this->buildActionClass($this->attributes['action']);
         }
 
         return $this->attributes['action'];
+    }
+
+    protected function buildActionClass(array $action) {
+        [$controller, $method] = $action;
+
+        $controller = str_starts_with($controller, 'Overland') ? $controller : "\Overland\App\Controllers\\{$controller}";
+
+        return [new $controller, $method];
     }
 
     public function __call($name, $arguments)
