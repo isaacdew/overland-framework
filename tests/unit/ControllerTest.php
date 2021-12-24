@@ -5,12 +5,13 @@ namespace Overland\Tests\Unit;
 use PHPUnit\Framework\TestCase;
 
 use Overland\Core\Controller;
+use Overland\Core\Response;
 use Overland\Tests\Traits\DatabaseTransactions;
-use WP_User;
 
 /**
  * @covers \Overland\Core\Controller
  * @uses \Overland\Core\Validator
+ * @uses \Overland\Core\Response
  */
 class ControllerTest extends TestCase
 {
@@ -72,7 +73,7 @@ class ControllerTest extends TestCase
     public function test_response_sets_status() {
         $controller = new FakeController();
 
-        $controller->returnResponse();
+        $this->assertInstanceOf(Response::class, $controller->returnResponse());
 
         $this->assertEquals(403, http_response_code());
     }
@@ -103,6 +104,6 @@ class FakeController extends Controller
     }
 
     public function returnResponse() {
-        return $this->response(403, false);
+        return $this->response(403)->test();
     }
 }

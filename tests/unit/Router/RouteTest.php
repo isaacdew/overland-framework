@@ -2,6 +2,7 @@
 
 namespace Overland\Tests\Unit\Router;
 
+use InvalidArgumentException;
 use Overland\Core\Router\Route;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -16,7 +17,7 @@ class RouteTest extends TestCase {
     public function test_it_registers_itself() {
         $path = 'test9';
 
-        $route = new Route('testing', $path, ['uses' => fn() => 'test'], 'GET');
+        $route = new Route('testing', $path, ['action' => fn() => 'test'], 'GET');
 
         add_action('rest_api_init', function() use ($route) {
             $route->register();
@@ -30,7 +31,7 @@ class RouteTest extends TestCase {
     }
 
     public function test_can_set_prefix() {
-        $route = new Route('testing', 'test', ['uses' => fn() => 'test'], 'POST');
+        $route = new Route('testing', 'test', ['action' => fn() => 'test'], 'POST');
 
         $route->prefix('prefix');
 
@@ -64,6 +65,18 @@ class RouteTest extends TestCase {
             'action is a closure' => [fn() => 'callback works!'],
             'action is an array' => [[FakeController::class, 'fake']]
         ];
+    }
+
+    public function test_attributes() {
+        $route = new Route('testing', 'test', ['action' => fn() => 'test'], 'POST');
+
+        $route->name('test');
+
+        $this->assertSame('test', $route->name());
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $route->invalidAttribute();
     }
 }
 

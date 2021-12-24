@@ -13,7 +13,16 @@ class Route
         'action' => '',
         'middleware' => [],
         'prefix' => '',
-        'name' => ''
+        'name' => '',
+    ];
+
+    protected $allowedAttributs = [
+        'action',
+        'middleware',
+        'prefix',
+        'name',
+        'method',
+        'path'
     ];
 
     public function __construct($basePath, $path, $attributes, $method)
@@ -68,14 +77,14 @@ class Route
 
     public function __call($name, $arguments)
     {
+        if(!in_array($name, $this->allowedAttributs)) {
+            throw new InvalidArgumentException("Attribute [{$name}] does not exist.");
+        }
 
         if (empty($arguments)) {
             return $this->attributes[$name] ?? $this->{$name};
         }
 
-        if(!in_array($name, array_keys($this->attributes))) {
-            throw new InvalidArgumentException("Attribute [{$name}] does not exist.");
-        }
         $this->attributes[$name] = $arguments[0];
 
         return $this;

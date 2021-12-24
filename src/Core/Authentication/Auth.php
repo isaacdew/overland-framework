@@ -4,6 +4,7 @@ namespace Overland\Core\Authentication;
 
 use Firebase\JWT\JWT;
 use Overland\Core\OverlandException;
+use Overland\Core\Response;
 
 class Auth
 {
@@ -51,7 +52,7 @@ class Auth
         $token = $_COOKIE['overland_jwt_token'] ?? false;
 
         if (!$token) {
-            $this->forbiddenResponse();
+            return $this->forbiddenResponse();
         }
 
         $secretKey = $this->getSecretKey();
@@ -59,11 +60,11 @@ class Auth
         try {
             $token = JWT::decode($token, $secretKey, ['HS256']);
         } catch (\Exception $e) {
-            $this->forbiddenResponse();
+            return $this->forbiddenResponse();
         }
 
         if($token->iss != get_bloginfo('url') || !isset($token->data->user->id)) {
-            $this->forbiddenResponse();
+            return $this->forbiddenResponse();
         }
 
         wp_set_current_user($token->data->user->id);
@@ -80,7 +81,6 @@ class Auth
     }
 
     protected function forbiddenResponse() {
-        status_header(403);
-        exit;
+        return Response::create()->status(403);
     }
 }

@@ -1,13 +1,15 @@
 <?php
 
-namespace Overland\Tests\Unit;
+namespace Overland\Tests\Unit\Authentication;
 
 use Overland\Core\Authentication\Auth;
+use Overland\Core\Response;
 use Overland\Tests\Traits\DatabaseTransactions;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Overland\Core\Authentication\Auth
+ * @uses \Overland\Core\Response
  */
 class AuthTest extends TestCase {
     use DatabaseTransactions;
@@ -42,5 +44,13 @@ class AuthTest extends TestCase {
         $auth->validateToken();
 
         $this->assertEquals($userId, get_current_user_id());
+    }
+
+    public function test_token_validation_fails_if_token_is_empty() {
+        $auth = new Auth();
+
+        $this->assertInstanceOf(Response::class, $auth->validateToken()->test());
+
+        $this->assertEquals(403, http_response_code());
     }
 }
