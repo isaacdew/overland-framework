@@ -49,6 +49,8 @@ class AuthTest extends TestCase {
     public function test_token_validation_fails_if_token_is_empty() {
         $auth = new Auth();
 
+        unset($_COOKIE['overland_jwt_token']);
+
         $this->assertInstanceOf(Response::class, $auth->validateToken()->test());
 
         $this->assertEquals(403, http_response_code());
