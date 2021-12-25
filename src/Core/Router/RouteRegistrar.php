@@ -20,9 +20,9 @@ class RouteRegistrar {
         'prefix'
     ];
 
-    protected Router $router;
+    protected $router;
 
-    public function __construct(Router $router)
+    public function __construct($router)
     {
         $this->router = $router;
     }

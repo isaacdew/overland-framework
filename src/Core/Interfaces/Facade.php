@@ -22,6 +22,10 @@ abstract class Facade {
         static::$app = $app;
     }
 
+    public static function getApp() {
+        return static::$app;
+    }
+    
     protected static function getResolvedInstance($name) {
         if(isset(static::$resolvedInstance[$name])) {
             return static::$resolvedInstance[$name];
