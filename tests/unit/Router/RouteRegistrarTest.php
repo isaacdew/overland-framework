@@ -1,5 +1,7 @@
 <?php
 
+namespace Overland\Tests\Unit\Router;
+
 use Overland\Core\App;
 use Overland\Core\Config;
 use Overland\Core\Router\Router;
@@ -53,7 +55,7 @@ class RouteRegistrarTest extends TestCase
         $registrar = new RouteRegistrar($this->router);
         $registrar->{$attribute}($value);
 
-        $reflection = new ReflectionClass(RouteRegistrar::class);
+        $reflection = new \ReflectionClass(RouteRegistrar::class);
 
         $attributes = $reflection->getProperty('attributes')->getValue($registrar);
 
@@ -94,7 +96,7 @@ class RouteRegistrarTest extends TestCase
     {
         $registrar = new RouteRegistrar($this->router);
 
-        $this->expectException(BadMethodCallException::class);
+        $this->expectException(\BadMethodCallException::class);
 
         $registrar->someMethodThatDoesntExist();
     }

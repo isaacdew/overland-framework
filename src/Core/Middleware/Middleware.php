@@ -32,7 +32,9 @@ class Middleware {
         $this->matchedRoute = $this->routeMatch();
         if($this->matchedRoute) {
             foreach($this->matchedRoute->middleware() as $middleware) {
+                // @codeCoverageIgnoreStart
                 (new $this->middleware[$middleware])->handle($request);
+                // @codeCoverageIgnoreEnd
             }
         }
     }

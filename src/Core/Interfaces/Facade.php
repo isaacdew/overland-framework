@@ -33,7 +33,5 @@ abstract class Facade {
         return static::$resolvedInstance[$name] = static::$app[$name];
     }
 
-    protected static function getFacadeRoot() {
-        throw new OverlandException(get_called_class() . 'does not implement getFacadeRoot!');
-    }
+    protected abstract static function getFacadeRoot();
 }
