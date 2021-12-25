@@ -1,6 +1,6 @@
 <?php
 
-namespace Overland\Tests\Unit;
+namespace Overland\Tests\Unit\Middleware;
 
 use Overland\Core\Interfaces\Middleware as InterfacesMiddleware;
 use Overland\Core\Middleware\Middleware;

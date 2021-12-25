@@ -1,6 +1,6 @@
 <?php
 
-namespace Overland\Tests\Unit;
+namespace Overland\Tests\Unit\Interfaces;
 
 use Overland\Core\Interfaces\Collection;
 use PHPUnit\Framework\TestCase;
