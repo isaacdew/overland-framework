@@ -16,3 +16,5 @@ $app = new App($config);
 $app->register(RouterServiceProvider::class);
 $app->register(MiddlewareServiceProvider::class);
 $app->boot();
+
+require_once dirname(__FILE__) . '/src/Core/Helpers/functions.php';

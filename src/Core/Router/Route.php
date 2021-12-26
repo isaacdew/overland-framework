@@ -35,7 +35,10 @@ class Route
 
     public function register()
     {
-        register_rest_route($this->basePath, $this->path, array(
+        // Here we support URI params
+        $path = preg_replace('/{(.*?)}/', '(?P<${1}>\S+)', $this->path);
+
+        register_rest_route($this->basePath, $path, array(
             'methods' => $this->method,
             'callback' => $this->getActionCallback(),
             'permission_callback' => '__return_true'
