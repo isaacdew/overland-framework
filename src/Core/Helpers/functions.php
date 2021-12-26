@@ -6,13 +6,14 @@ use Overland\Core\OverlandException;
 function overland_route($name, $params = []) {
     $route = Route::getRoutes()->findByName($name);
     if(!$route) {
-        throw new OverlandException("A route with the name '{$name}' does not exist.");
+        throw new OverlandException("Could not find a route with the name '{$name}'.");
     }
 
-    $fullPath = $route->getFullPath();
     if(empty($params) && $route->hasParams()) {
         throw new OverlandException('Missing route parameters.');
     }
+
+    $fullPath = $route->getFullPath();
 
     if(count($params)) {
         $regexArray = [];
