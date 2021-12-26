@@ -22,5 +22,5 @@ function overland_route($name, $params = []) {
 
         $fullPath = preg_replace_callback_array($regexArray, $fullPath);
     }
-    return get_site_url() . $fullPath;
+    return get_rest_url(null, $fullPath);
 }

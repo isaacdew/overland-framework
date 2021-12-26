@@ -57,6 +57,11 @@ class Route
         return '/' . $this->basePath . '/' . $this->path;
     }
 
+    public function getCompiledPath()
+    {
+        return $this->compiledPath;
+    }
+
     public function prefix($prefix)
     {
         $this->path = trim($prefix, '/') . '/' . $this->path;

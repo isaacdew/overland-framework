@@ -13,13 +13,15 @@ use ReflectionClass;
  * @uses \Overland\Core\Interfaces\Collection::valid
  * @uses \Overland\Core\Router\Router::initAPI
  */
-class RouteTest extends TestCase {
-    public function test_it_registers_itself() {
+class RouteTest extends TestCase
+{
+    public function test_it_registers_itself()
+    {
         $path = 'test9';
 
-        $route = new Route('testing', $path, ['action' => fn() => 'test'], 'GET');
+        $route = new Route('testing', $path, ['action' => fn () => 'test'], 'GET');
 
-        add_action('rest_api_init', function() use ($route) {
+        add_action('rest_api_init', function () use ($route) {
             $route->register();
         });
 
@@ -30,8 +32,9 @@ class RouteTest extends TestCase {
         $this->assertTrue(isset($registeredRoutes[$route->getFullPath()]));
     }
 
-    public function test_can_set_prefix() {
-        $route = new Route('testing', 'test', ['action' => fn() => 'test'], 'POST');
+    public function test_can_set_prefix()
+    {
+        $route = new Route('testing', 'test', ['action' => fn () => 'test'], 'POST');
 
         $route->prefix('prefix');
 
@@ -41,7 +44,8 @@ class RouteTest extends TestCase {
     /**
      * @dataProvider actions
      */
-    public function test_get_action_callback_handles_string($action) {
+    public function test_get_action_callback_handles_string($action)
+    {
         $reflectedClass = new ReflectionClass(Route::class);
 
         $getActionCallback = $reflectedClass->getMethod('getActionCallback');
@@ -50,7 +54,7 @@ class RouteTest extends TestCase {
         $route = new Route('testing', 'test', ['action' => $action], 'POST');
         $action = $getActionCallback->invoke($route);
 
-        if(is_array($action)) {
+        if (is_array($action)) {
             $value = $action[0]->{$action[1]}();
         }
 
@@ -59,16 +63,18 @@ class RouteTest extends TestCase {
         $this->assertEquals('callback works!', $value);
     }
 
-    public function actions() {
+    public function actions()
+    {
         return [
             'action is a class method' => ['Overland\Tests\Unit\Router\FakeController@fake'],
-            'action is a closure' => [fn() => 'callback works!'],
+            'action is a closure' => [fn () => 'callback works!'],
             'action is an array' => [[FakeController::class, 'fake']]
         ];
     }
 
-    public function test_attributes() {
-        $route = new Route('testing', 'test', ['action' => fn() => 'test'], 'POST');
+    public function test_attributes()
+    {
+        $route = new Route('testing', 'test', ['action' => fn () => 'test'], 'POST');
 
         $route->name('test');
 
@@ -78,10 +84,27 @@ class RouteTest extends TestCase {
 
         $route->invalidAttribute();
     }
+
+    public function test_it_compiles_path_properly()
+    {
+        $routeWithoutParams = new Route('testing', 'test', ['action' => fn () => 'test'], 'POST');
+        
+        $this->assertFalse($routeWithoutParams->hasParams());
+        
+        $this->assertEquals('test', $routeWithoutParams->getCompiledPath());
+
+        $routeWithParams = new Route('testing', 'test/{id}', ['action' => fn () => 'test'], 'POST');
+
+        $this->assertTrue($routeWithParams->hasParams());
+
+        $this->assertEquals('test/(?P<id>\S+)', $routeWithParams->getCompiledPath());
+    }
 }
 
-class FakeController {
-    public function fake() {
+class FakeController
+{
+    public function fake()
+    {
         return 'callback works!';
     }
 }
