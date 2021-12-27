@@ -30,16 +30,6 @@ class Router
         return $this;
     }
 
-    public function get($path, $action)
-    {
-        return $this->addRoute($path, $action, 'GET');
-    }
-
-    public function post($path, $action)
-    {
-        return $this->addRoute($path, $action, 'POST');
-    }
-
     public function registerRoutes()
     {
         add_action('rest_api_init', [$this, 'initAPI']);
@@ -66,7 +56,7 @@ class Router
 
     public function __call($method, $arguments)
     {
-        return (new RouteRegistrar($this))->attribute($method, $arguments[0] ?? true);
+        return (new RouteRegistrar($this))->{$method}(...$arguments);
     }
 
     public function initAPI()
