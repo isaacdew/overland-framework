@@ -25,6 +25,6 @@ class Transient extends CacheDriver
     {
         global $wpdb;
 
-        return $wpdb->get_var("SELECT option_id FROM {$wpdb->prefix}options WHERE option_name = '_transient_timeout_{$key}' AND option_value > NOW()");
+        return $wpdb->get_var("SELECT option_id FROM {$wpdb->prefix}options WHERE option_name = '_transient_timeout_{$key}' AND option_value > UNIX_TIMESTAMP()");
     }
 }
