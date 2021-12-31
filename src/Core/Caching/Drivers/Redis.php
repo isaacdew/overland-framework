@@ -39,6 +39,6 @@ class Redis extends CacheDriver
 
     public function forget($key)
     {
-        return $this->client->delete($key);
+        return $this->client->del($key);
     }
 }
