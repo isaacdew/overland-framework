@@ -82,7 +82,7 @@ class Auth
     }
 
     protected function getSecretKey() {
-        $secretKey =  $this->app->config()->get('app.secretKey');
+        $secretKey =  $this->app->config()->get('app.key');
 
         if (!$secretKey) {
             throw new OverlandException('App key not defined! This is required for auth.');

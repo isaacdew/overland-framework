@@ -28,7 +28,7 @@ class AuthTest extends TestCase
             new App(
                 new Config([
                     'app' => [
-                        'secretKey' => 'testingKey'
+                        'key' => 'testingKey'
                     ]
                 ])
             )
@@ -102,7 +102,7 @@ class AuthTest extends TestCase
             new App(
                 new Config([
                     'app' => [
-                        'secretKey' => 'KeyTwo'
+                        'key' => 'KeyTwo'
                     ]
                 ])
             )
@@ -130,7 +130,7 @@ class AuthTest extends TestCase
         $auth = new Auth(new App(
             new Config([
                 'app' => [
-                    'secretKey' => null
+                    'key' => null
                 ]
             ])
         ));
