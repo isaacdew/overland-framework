@@ -11,7 +11,10 @@ class RouteRegistrar {
 
     protected array $methods = [
         'get',
-        'post'
+        'post',
+        'put',
+        'delete',
+        'options'
     ];
 
     protected array $allowedAttributes = [
