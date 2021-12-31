@@ -14,6 +14,9 @@ use PHPUnit\Framework\TestCase;
  * @uses \Overland\Core\App
  * @uses \Overland\Core\Config
  * @uses \Overland\Core\Facades\Route
+ * @uses \Overland\Core\Router\RouteRegistrar::__call
+ * @uses \Overland\Core\Router\RouteRegistrar::__construct
+ * @uses \Overland\Core\Router\RouteRegistrar::registerRoute
  * @uses \Overland\Core\Interfaces\Collection
  * @uses \Overland\Core\Interfaces\Facade
  * @uses \Overland\Core\Router\Router

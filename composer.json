@@ -30,7 +30,8 @@
         "phpunit/phpunit": "^9.5",
         "wordpress/wordpress": "dev-master",
         "yoast/phpunit-polyfills": "^1.0",
-        "predis/predis": "^1.1"
+        "predis/predis": "^1.1",
+        "mockery/mockery": "^1.4"
     },
     "repositories": [
         {
