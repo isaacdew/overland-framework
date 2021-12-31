@@ -3,7 +3,7 @@
 namespace Overland\Core\Caching;
 
 use Overland\Core\Caching\Drivers\Transient;
-use Overland\Core\Facades\Cache;
+use Overland\Core\Facades\Cache as CacheFacade;
 use Overland\Core\Interfaces\ServiceProvider;
 
 class CacheServiceProvider extends ServiceProvider
@@ -13,10 +13,10 @@ class CacheServiceProvider extends ServiceProvider
         $this->app->singleton('cache', function($app) {
             $driverName = $app->config()->get('app.cache.driver');
             $driver = $this->getDriver($driverName);
-            return new $driver($app);
+            return new Cache(new $driver($app));
         });
 
-        Cache::setApp($this->app);
+        CacheFacade::setApp($this->app);
     }
 
     public function getDriver($name)
