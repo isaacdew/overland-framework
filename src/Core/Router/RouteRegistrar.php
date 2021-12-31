@@ -4,7 +4,6 @@ namespace Overland\Core\Router;
 
 use BadMethodCallException;
 use InvalidArgumentException;
-use Overland\Core\Router\Router;
 
 class RouteRegistrar {
     protected array $attributes = [];

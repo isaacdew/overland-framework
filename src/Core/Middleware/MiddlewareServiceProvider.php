@@ -8,7 +8,7 @@ class MiddlewareServiceProvider extends ServiceProvider {
     public function boot() {
         $this->app->singleton('middleware', function($app) {
             $middleware = new Middleware($this->app->config()->get('app.middleware'));
-            $middleware->guard($this->app['router']->getRoutes()->whereHasMiddleware());
+            $middleware->guard($this->app['router']->getRoutes());
 
             return $middleware;
         });
