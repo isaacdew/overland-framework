@@ -2,6 +2,7 @@
 
 namespace Overland\Core\Caching;
 
+use Overland\Core\Caching\Drivers\Redis;
 use Overland\Core\Caching\Drivers\Transient;
 use Overland\Core\Facades\Cache as CacheFacade;
 use Overland\Core\Interfaces\ServiceProvider;
@@ -22,7 +23,8 @@ class CacheServiceProvider extends ServiceProvider
     public function getDriver($name)
     {
         $mapping = [
-            'transient' => Transient::class
+            'transient' => Transient::class,
+            'redis' => Redis::class
         ];
 
         return $mapping[$name];
