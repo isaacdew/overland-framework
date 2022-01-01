@@ -12,10 +12,11 @@ class Cache
     protected $passthru = [
         'get',
         'put',
+        'has',
         'forget'
     ];
 
-    public function __construct(CacheDriver $driver)
+    public function __construct(CacheDriverInterface $driver)
     {
         $this->driver = $driver;
     }

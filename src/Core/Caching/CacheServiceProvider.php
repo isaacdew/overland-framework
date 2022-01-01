@@ -9,24 +9,19 @@ use Overland\Core\Interfaces\ServiceProvider;
 
 class CacheServiceProvider extends ServiceProvider
 {
+    protected array $drivers = [
+        'transient' => Transient::class,
+        'redis' => Redis::class
+    ];
+
     public function boot()
     {
         $this->app->singleton('cache', function($app) {
             $driverName = $app->config()->get('app.cache.driver');
-            $driver = $this->getDriver($driverName);
+            $driver = $this->drivers[$driverName];
             return new Cache(new $driver($app));
         });
 
         CacheFacade::setApp($this->app);
-    }
-
-    public function getDriver($name)
-    {
-        $mapping = [
-            'transient' => Transient::class,
-            'redis' => Redis::class
-        ];
-
-        return $mapping[$name];
     }
 }

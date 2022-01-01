@@ -2,7 +2,7 @@
 
 namespace Overland\Core\Caching;
 
-abstract class CacheDriver
+abstract class CacheDriver implements CacheDriverInterface
 {
     protected $app;
 
