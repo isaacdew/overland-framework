@@ -55,7 +55,8 @@ class CacheTest extends TestCase
             ['put', ['key', 'value']],
             ['get', ['key']],
             ['has', ['key']],
-            ['forget', ['key']]
+            ['forget', ['key']],
+            ['flush', []]
         ];
     }
 

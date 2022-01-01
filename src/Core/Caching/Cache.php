@@ -13,7 +13,8 @@ class Cache
         'get',
         'put',
         'has',
-        'forget'
+        'forget',
+        'flush'
     ];
 
     public function __construct(CacheDriverInterface $driver)
