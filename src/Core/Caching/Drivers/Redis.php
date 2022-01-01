@@ -20,17 +20,17 @@ class Redis extends CacheDriver
 
     public function get($key)
     {
-        return $this->client->get($key);
+        return unserialize($this->client->get($key));
     }
 
     public function has($key)
     {
-        return $this->client->exists($key);
+        return (bool) $this->client->exists($key);
     }
 
     public function put($key, $value, $seconds = 0)
     {
-        $this->client->set($key, $value);
+        $this->client->set($key, serialize($value));
 
         if($seconds) {
             $this->client->expire($key, $seconds);

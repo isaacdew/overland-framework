@@ -20,6 +20,10 @@ jobs:
           MYSQL_USER: 'wordpress'
           MYSQL_DATABASE: 'wordpress'
           MYSQL_PASSWORD: 'WordPress'
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
 
     steps:
     - uses: actions/checkout@v2
