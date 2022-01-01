@@ -21,4 +21,6 @@ abstract class CacheDriver implements CacheDriverInterface
     abstract public function has($key);
 
     abstract public function forget($key);
+
+    abstract public function flush();
 }

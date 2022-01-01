@@ -25,4 +25,14 @@ class Transient extends CacheDriver
     {
         return (bool) get_transient($key);
     }
+
+    public function flush()
+    {
+        // Need to clear object cache
+        wp_cache_flush();
+
+        // Then clear transients from database
+        global $wpdb;
+        $wpdb->query("DELETE FROM {$wpdb->options} WHERE `option_name` LIKE ('%\_transient\_%')");
+    }
 }

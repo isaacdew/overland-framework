@@ -41,4 +41,9 @@ class Redis extends CacheDriver
     {
         return $this->client->del($key);
     }
+
+    public function flush()
+    {
+        return $this->client->flushall();
+    }
 }

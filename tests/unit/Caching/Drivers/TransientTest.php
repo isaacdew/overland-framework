@@ -62,4 +62,18 @@ class TransientTest extends TestCase
 
         $this->assertFalse($this->transientDriver->has('test_key'));
     }
+
+    public function test_it_flushes_cache()
+    {
+        $this->transientDriver->put('test_key1', 'value');
+        $this->transientDriver->put('test_key2', 'value');
+
+        $this->assertTrue($this->transientDriver->has('test_key1'));
+        $this->assertTrue($this->transientDriver->has('test_key2'));
+        
+        $this->transientDriver->flush();
+        
+        $this->assertFalse($this->transientDriver->has('test_key1'));
+        $this->assertFalse($this->transientDriver->has('test_key2'));
+    }
 }

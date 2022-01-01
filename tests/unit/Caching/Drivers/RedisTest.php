@@ -96,6 +96,20 @@ class RedisTest extends TestCase
         $redisDriver->put('test_key', 'anything', DAY_IN_SECONDS);
     }
 
+    public function test_it_flushes_cache()
+    {
+        $this->redisDriver->put('test_key1', 'value');
+        $this->redisDriver->put('test_key2', 'value');
+
+        $this->assertTrue($this->redisDriver->has('test_key1'));
+        $this->assertTrue($this->redisDriver->has('test_key2'));
+        
+        $this->redisDriver->flush();
+        
+        $this->assertFalse($this->redisDriver->has('test_key1'));
+        $this->assertFalse($this->redisDriver->has('test_key2'));
+    }
+
     public function tearDown(): void
     {
         $this->predis->flushAll();
