@@ -102,7 +102,7 @@ class Route
 
         $arguments = [];
         foreach($bindings as $key => $binding) {
-            $arguments[] = new $binding($request[$key]);
+            $arguments[] = $binding($request[$key]);
         }
 
         $arguments[] = $request;

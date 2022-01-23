@@ -7,10 +7,15 @@ use WP_User;
 
 class RouteBinding
 {
-    protected $bindings = [
-        'post' => WP_Post::class,
-        'user' => WP_User::class
-    ];
+    protected $bindings = [];
+
+    public function __construct()
+    {
+        $this->bindings = [
+            'post' => fn($value) => get_post($value),
+            'user' => fn($value) => get_user_by('ID', $value),
+        ];
+    }
 
     public function resolve($name)
     {
