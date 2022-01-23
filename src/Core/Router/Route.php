@@ -102,7 +102,13 @@ class Route
 
         $arguments = [];
         foreach($bindings as $key => $binding) {
-            $arguments[] = $binding($request[$key]);
+            $value = $binding($request[$key]);
+            if(!$value) {
+                status_header(404);
+                exit;
+            }
+
+            $arguments[] = $value;
         }
 
         $arguments[] = $request;
