@@ -25,29 +25,23 @@ use ReflectionObject;
 class CacheServiceProviderTest extends TestCase
 {
     use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-    
+
     public function test_it_registers_cache()
     {
+        $driverMock = Mockery::mock('overload:FakeDriver', CacheDriverInterface::class);
         $app = new App(
             new Config([
                 'app' => [
                     'cache' => [
-                        'driver' => 'test'
+                        'driver' => 'FakeDriver'
                     ]
                 ]
             ])
         );
 
-        
-        $driverMock = Mockery::mock('overload:FakeDriver', CacheDriverInterface::class);
         $driverMock->shouldReceive('__construct')->with($app);
 
-        
         $serviceProvider = new CacheServiceProvider($app);
-
-        $reflection = new ReflectionObject($serviceProvider);
-
-        $reflection->getProperty('drivers')->setValue($serviceProvider, ['test' => 'FakeDriver']);
 
         $serviceProvider->boot();
 
