@@ -94,7 +94,7 @@ class Route
         return $this->attributes['action'];
     }
 
-    protected function handleWithBindings(WP_REST_Request $request)
+    public function handleWithBindings(WP_REST_Request $request)
     {
         $action = $this->getActionCallback();
 
