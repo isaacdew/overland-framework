@@ -18,7 +18,7 @@ class CacheServiceProvider extends ServiceProvider
     {
         $this->app->singleton('cache', function($app) {
             $driverName = $app->config()->get('app.cache.driver');
-            $driver = $this->drivers[$driverName];
+            $driver = $this->drivers[$driverName] ?? $driverName;
             return new Cache(new $driver($app));
         });
 
