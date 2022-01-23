@@ -2,6 +2,9 @@
 
 namespace Overland\Core\Router;
 
+use WP_Post;
+use WP_User;
+
 class RouteBinding
 {
     protected $bindings = [
