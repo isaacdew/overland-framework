@@ -3,6 +3,8 @@
 namespace Overland\Core\Router;
 
 use InvalidArgumentException;
+use Overland\Core\Facades\RouteBinding;
+use WP_REST_Request;
 
 class Route
 {
@@ -15,7 +17,7 @@ class Route
         'action' => '',
         'middleware' => [],
         'prefix' => '',
-        'name' => '',
+        'name' => ''
     ];
 
     protected $allowedAttributs = [
@@ -24,8 +26,11 @@ class Route
         'prefix',
         'name',
         'method',
-        'path'
+        'path',
+        'bindings'
     ];
+
+    protected $bindings = [];
 
     public function __construct($basePath, $path, $attributes, $method)
     {
@@ -35,14 +40,23 @@ class Route
         $this->method = $method;
 
         // Here we support URI params
-        $this->compiledPath = preg_replace('/{(.*?)}/', '(?P<${1}>\S+)', $this->path, -1, $this->paramCount);
+        $this->compiledPath = preg_replace_callback(
+            '/{(.*?)}/',
+            function ($matches) {
+                $this->bindings[] = $matches[1];
+                return "(?P<{$matches[1]}>\S+)";
+            },
+            $this->path,
+            -1,
+            $this->paramCount
+        );
     }
 
     public function register()
     {
         register_rest_route($this->basePath, $this->compiledPath, array(
             'methods' => $this->method,
-            'callback' => $this->getActionCallback(),
+            'callback' => empty($this->bindings) ? $this->getActionCallback() : [$this, 'handleWithBindings'],
             'permission_callback' => '__return_true'
         ));
     }
@@ -73,13 +87,31 @@ class Route
     {
         if (is_string($this->attributes['action']) && str_contains($this->attributes['action'], '@')) {
             return $this->buildActionClass(explode('@', $this->attributes['action']));
-        }
-
-        if (is_array($this->attributes['action'])) {
+        } else if (is_array($this->attributes['action'])) {
             return $this->buildActionClass($this->attributes['action']);
         }
 
         return $this->attributes['action'];
+    }
+
+    protected function handleWithBindings(WP_REST_Request $request)
+    {
+        $action = $this->getActionCallback();
+
+        $bindings = RouteBinding::resolve($this->bindings);
+
+        $arguments = [];
+        foreach($bindings as $key => $binding) {
+            $arguments[] = new $binding($request[$key]);
+        }
+
+        $arguments[] = $request;
+
+        if(is_array($action)) {
+            return $action[0]->{$action[1]}(...$arguments);
+        }
+
+        return $action(...$arguments);
     }
 
     protected function buildActionClass(array $action)
