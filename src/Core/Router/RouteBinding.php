@@ -2,9 +2,6 @@
 
 namespace Overland\Core\Router;
 
-use WP_Post;
-use WP_User;
-
 class RouteBinding
 {
     protected $bindings = [];
@@ -26,8 +23,8 @@ class RouteBinding
         return $this->bindings[$name];
     }
 
-    public function bind($name, $class)
+    public function bind($name, $callback)
     {
-        $this->bindings[$name] = $class;
+        $this->bindings[$name] = $callback;
     }
 }
