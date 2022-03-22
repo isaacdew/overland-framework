@@ -1,0 +1,1 @@
+<span>Hello, <?php echo $name; ?></span>
